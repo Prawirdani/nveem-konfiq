@@ -17,7 +17,6 @@ return {
 					---Line-comment keymap
 					line = "<leader>/",
 					---Block-comment keymap
-					block = "b",
 				},
 			})
 		end,
