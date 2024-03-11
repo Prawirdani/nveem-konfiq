@@ -32,7 +32,7 @@ return {
 				b.formatting.goimports,
 				-- Python
 				b.formatting.black,
-				b.diagnostics.mypy,
+				b.diagnostics.ruff,
 			},
 			on_attach = function(client, bufnr)
 				if client.supports_method("textDocument/formatting") then
