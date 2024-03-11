@@ -1,16 +1,14 @@
-vim.cmd("set expandtab")
 vim.cmd("set tabstop=4")
 vim.cmd("set softtabstop=4")
 vim.cmd("set shiftwidth=4")
 
-vim.opt.number = true
+vim.opt.relativenumber = true
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
