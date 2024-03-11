@@ -36,6 +36,7 @@ return {
 			-- Keymap
 			vim.keymap.set("n", "<leader>ch", vim.lsp.buf.hover, { desc = "Hover Code" })
 			vim.keymap.set("n", "<leader>cd", vim.lsp.buf.definition, { desc = "Goto Definitions" })
+			vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
 			vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 		end,
 	},
