@@ -2,13 +2,58 @@ return {
 	{
 		"williamboman/mason.nvim",
 		config = function()
-			require("mason").setup()
+			require("mason").setup({
+				ui = {
+					icons = {
+						package_installed = "✓",
+						package_pending = "➜",
+						package_uninstalled = "✗",
+					},
+				},
+			})
 		end,
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
+		requires = {
+			"williamboman/mason.nvim",
+		},
 		config = function()
-			require("mason-lspconfig").setup({})
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					"emmet_language_server",
+					"eslint",
+					"gopls",
+					"html",
+					"lua_ls",
+					"pyright",
+					"sqls",
+					"svelte",
+					"tailwindcss",
+					"tsserver",
+				},
+			})
+		end,
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		requires = {
+			"williamboman/mason.nvim",
+		},
+		config = function()
+			require("mason-tool-installer").setup({
+				ensure_installed = {
+					"stylua",
+					"black",
+					"mypy",
+					"prettier",
+					"prettierd",
+					"debugpy",
+					"eslint_d",
+					"ruff",
+					"goimports",
+				},
+			})
 		end,
 	},
 	{
