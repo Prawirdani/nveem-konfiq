@@ -47,7 +47,6 @@ return {
 					"black",
 					"mypy",
 					"prettier",
-					"prettierd",
 					"debugpy",
 					"eslint_d",
 					"ruff",

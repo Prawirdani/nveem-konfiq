@@ -14,7 +14,7 @@ return {
 				b.formatting.stylua,
 				-- JS/TS
 				require("none-ls.diagnostics.eslint_d"),
-				b.formatting.prettierd.with({
+				b.formatting.prettier.with({
 					filetypes = {
 						"html",
 						"json",
@@ -30,7 +30,7 @@ return {
 				b.formatting.goimports,
 				-- Python
 				b.formatting.black,
-				b.diagnostics.ruff,
+				require("none-ls.diagnostics.ruff"),
 			},
 			on_attach = function(client, bufnr)
 				if client.supports_method("textDocument/formatting") then
