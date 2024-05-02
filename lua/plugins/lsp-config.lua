@@ -74,6 +74,7 @@ return {
 			lspconfig.svelte.setup({ capabilities = capabilities })
 			-- SQL LS
 			lspconfig.sqlls.setup({ capabilities = capabilities })
+			lspconfig.intelephense.setup({ capabilities = capabilities })
 			-- HTML LS
 			lspconfig.html.setup({ capabilities = capabilities })
 			lspconfig.emmet_language_server.setup({ capabilities = capabilities })

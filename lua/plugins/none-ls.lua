@@ -13,7 +13,6 @@ return {
 				-- Lua
 				b.formatting.stylua,
 				-- JS/TS
-				require("none-ls.diagnostics.eslint_d"),
 				b.formatting.prettier.with({
 					filetypes = {
 						"html",
@@ -30,6 +29,7 @@ return {
 				b.formatting.goimports,
 				-- Python
 				b.formatting.black,
+				b.formatting.pretty_php,
 				require("none-ls.diagnostics.ruff"),
 			},
 			on_attach = function(client, bufnr)
