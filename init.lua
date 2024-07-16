@@ -22,5 +22,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 
+-- Set clipboard to system clipboard, require xclip and maybe wl-clipboard
+vim.opt.clipboard:append("unnamedplus")
+
 require("vim-options")
 require("lazy").setup("plugins")
