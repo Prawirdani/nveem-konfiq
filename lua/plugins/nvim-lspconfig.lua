@@ -92,6 +92,13 @@ return {
             pyright = {
               disableOrganizeImports = true,
             },
+            python = {
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = 'workspace',
+              },
+            },
           },
         },
         ruff = {
