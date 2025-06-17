@@ -2,30 +2,20 @@ return { -- Autocompletion
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
   dependencies = {
-    -- Snippet Engine & its associated nvim-cmp source
-    {
-      'L3MON4D3/LuaSnip',
-      build = (function()
-        -- Build Step is needed for regex support in snippets.
-        -- This step is not supported in many windows environments.
-        -- Remove the below condition to re-enable on windows.
-        if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-          return
-        end
-        return 'make install_jsregexp'
-      end)(),
-      dependencies = {
-        'saadparwaiz1/cmp_luasnip',
-        'rafamadriz/friendly-snippets',
-      },
-    },
+    -- https://github.com/L3MON4D3/LuaSnip, Snippet engine & associated nvim-cmp source
+    'L3MON4D3/LuaSnip',
+    -- https://github.com/saadparwaiz1/cmp_luasnip
     'saadparwaiz1/cmp_luasnip',
-
-    -- Adds other completion capabilities.
-    --  nvim-cmp does not ship with all sources by default. They are split
-    --  into multiple repos for maintenance purposes.
+    -- https://github.com/hrsh7th/cmp-nvim-lsp, LSP completion capabilities
     'hrsh7th/cmp-nvim-lsp',
+    -- https://github.com/rafamadriz/friendly-snippets
+    'rafamadriz/friendly-snippets',
+    -- https://github.com/hrsh7th/cmp-buffer
+    'hrsh7th/cmp-buffer',
+    -- https://github.com/hrsh7th/cmp-path
     'hrsh7th/cmp-path',
+    -- https://github.com/hrsh7th/cmp-cmdline
+    'hrsh7th/cmp-cmdline',
   },
 
   config = function()
@@ -49,7 +39,14 @@ return { -- Autocompletion
         ['<CR>'] = cmp.mapping.confirm { select = true },
       },
       sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
+        -- { name = 'nvim_lsp' },
+        {
+          name = 'nvim_lsp',
+          -- priority = 10,
+          -- keyword_length = 6,
+          -- group_index = 1,
+          -- max_item_count = 30,
+        },
         { name = 'luasnip' }, -- For luasnip users.
       }, {
         { name = 'buffer' },

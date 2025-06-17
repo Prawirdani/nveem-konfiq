@@ -21,10 +21,14 @@ return {
           hide_gitignored = true,
           hide_by_name = {
             '.git',
+            '.env',
             '.DS_Store',
             'thumbs.db',
           },
-          never_show = {},
+          never_show = {
+            '.ruff_cache',
+            '__pycache__',
+          },
         },
       },
     }

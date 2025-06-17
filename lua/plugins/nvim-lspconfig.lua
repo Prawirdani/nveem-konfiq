@@ -17,17 +17,26 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-          map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-          map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-          map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+          local telescope = require 'telescope.builtin'
+
+          -- map('gd', telescope.lsp_definitions, '[G]oto [D]efinition') -- NOTE: vim.lsp.util.jump_to deprecated and this shit ain't patched yed
+          map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+          map('gr', telescope.lsp_references, '[G]oto [R]eferences')
+          map('gI', telescope.lsp_implementations, '[G]oto [I]mplementation')
+          map('<leader>D', telescope.lsp_type_definitions, 'Type [D]efinition')
+          map('<leader>ds', telescope.lsp_document_symbols, '[D]ocument [S]ymbols')
+          map('<leader>ws', telescope.lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
           map('<leader>cd', vim.diagnostic.open_float, '[C]ode [D]iagnostic', { 'n', 'x' })
           map('<leader>ch', vim.lsp.buf.hover, '[C]ode [H]over', { 'n', 'x' })
-          map('<leader>ce', vim.diagnostic.goto_next, '[C]ode [E]rror', { 'n', 'x' })
+          map('<leader>ce', function()
+            vim.diagnostic.jump {
+              forward = true,
+              float = true,
+              count = 1,
+            }
+          end, '[C]ode [E]rror', { 'n', 'x' })
 
           vim.diagnostic.config {
             float = {
@@ -75,31 +84,30 @@ return {
           end
         end,
       })
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
       local servers = {
         gopls = {
           gofumpt = true,
         },
+        biome = {},
         pyright = {
           -- Don't know what happened, but pyright wont active unless a dir has initalized git. weird huh?
           -- This basically tells pyright to use the current directory as the root directory
-          root_dir = function()
-            return vim.fn.expand '%:p:h'
-          end,
-          settings = {
-            pyright = {
-              disableOrganizeImports = true,
-            },
-            python = {
-              analysis = {
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-                diagnosticMode = 'workspace',
-              },
-            },
-          },
+          -- root_dir = function()
+          --   return vim.fn.expand '%:p:h'
+          -- end,
+          -- settings = {
+          --   pyright = {
+          --     disableOrganizeImports = true,
+          --   },
+          --   python = {
+          --     analysis = {
+          --       autoSearchPaths = true,
+          --       useLibraryCodeForTypes = true,
+          --       diagnosticMode = 'workspace',
+          --     },
+          --   },
+          -- },
         },
         ruff = {
           settings = {
@@ -115,27 +123,48 @@ return {
             },
           },
         },
+        -- ts_ls = {
+        --   init_options = {
+        --     hostInfo = 'neovim',
+        --     preferences = {
+        --       includeCompletionsForModuleExports = true,
+        --       includeCompletionsForImportStatements = true,
+        --       importModuleSpecifier = 'non-relative',
+        --     },
+        --   },
+        -- },
       }
 
       require('mason').setup()
       local ensure_installed = vim.tbl_keys(servers or {})
+
       -- No need to include item from servers table, as they are already included in ensure_installed
-      vim.list_extend(ensure_installed, {
-        -- Lsp's
-        'stylua',
-        -- 'eslint',
-
-        -- Formmatters
-        'goimports',
-        'gofumpt',
-        'golines',
-        'prettier',
-
-        -- Dap
-        'debugpy',
-      })
+      -- vim.list_extend(ensure_installed, {
+      --   -- Lsp's
+      --   -- 'stylua',
+      --   -- 'html-lsp',
+      --   -- 'tailwindcss-language-server',
+      --   'biome',
+      --   'gopls'
+      --   -- 'emmet-language-server',
+      --   -- 'eslint',
+      --   -- Formmatters
+      --   -- 'prettierd',
+      --   -- 'sql-formatter',
+      --   -- 'goimports',
+      --   -- 'gofumpt',
+      --   -- 'golines',
+      --
+      --   -- Dap
+      --   -- 'debugpy',
+      -- })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
       require('mason-lspconfig').setup {
+        ensure_installed = ensure_installed,
+        automatic_enable = true,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -159,4 +188,14 @@ return {
     },
   },
   { 'Bilal2453/luvit-meta', lazy = true },
+
+  -- lspconfig.eslint_d.setup {
+  --   --- ...
+  --   on_attach = function(client, bufnr)
+  --     vim.api.nvim_create_autocmd('BufWritePre', {
+  --       buffer = bufnr,
+  --       command = 'EslintFixAll',
+  --     })
+  --   end,
+  -- },
 }

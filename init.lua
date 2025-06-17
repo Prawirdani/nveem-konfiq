@@ -1,3 +1,13 @@
+-- Experimental
+vim.opt.lazyredraw = true -- Avoid redrawing during macro execution
+vim.opt.synmaxcol = 200 -- Limit syntax highlighting column
+vim.opt.updatetime = 300 -- Reduce update time for plugins like LSP
+vim.opt.cursorline = false -- Disable cursorline for large files
+vim.lsp.set_log_level 'OFF'
+
+vim.o.exrc = true
+vim.o.secure = true
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -24,15 +34,6 @@ end)
 vim.opt.breakindent = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
-
--- Set Tabstop on tsx
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = 'typescriptreact',
-  callback = function()
-    vim.opt_local.shiftwidth = 2
-    vim.opt_local.tabstop = 2
-  end,
-})
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 vim.opt.list = false -- Not enabled by default because it can be confusing, use set list to enable, i only use check is it tab or space
