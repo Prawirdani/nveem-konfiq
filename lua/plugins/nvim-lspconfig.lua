@@ -6,7 +6,6 @@ return {
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      'hrsh7th/cmp-nvim-lsp', -- Allows extra capabilities provided by nvim-cmp
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -149,7 +148,6 @@ return {
       --   -- 'emmet-language-server',
       --   -- 'eslint',
       --   -- Formmatters
-      --   -- 'prettierd',
       --   -- 'sql-formatter',
       --   -- 'goimports',
       --   -- 'gofumpt',
@@ -161,7 +159,6 @@ return {
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
       require('mason-lspconfig').setup {
         ensure_installed = ensure_installed,
         automatic_enable = true,
@@ -175,7 +172,6 @@ return {
       }
     end,
   },
-
   -- LuaLS for Neovim config
   {
     'folke/lazydev.nvim',
@@ -188,14 +184,4 @@ return {
     },
   },
   { 'Bilal2453/luvit-meta', lazy = true },
-
-  -- lspconfig.eslint_d.setup {
-  --   --- ...
-  --   on_attach = function(client, bufnr)
-  --     vim.api.nvim_create_autocmd('BufWritePre', {
-  --       buffer = bufnr,
-  --       command = 'EslintFixAll',
-  --     })
-  --   end,
-  -- },
 }
